@@ -13,6 +13,7 @@ var ids = []; // idDivoâ
 var divs; // âñå DIVû 
 var shift = false; 
 var isOnPortal = false; 
+//èçìíè
 $(window).resize(function(){ 
 
   //window.scrollTo(window.pageXOffset,document.documentElement.clientHeight/3); 
