@@ -13,7 +13,7 @@ var ids = []; // idDivoв
 var divs; // все DIVы 
 var shift = false; 
 var isOnPortal = false; 
-//измни
+//измни ыввы
 $(window).resize(function(){ 
 
   //window.scrollTo(window.pageXOffset,document.documentElement.clientHeight/3); 
