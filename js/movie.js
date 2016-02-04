@@ -49,8 +49,6 @@ var portalPos = $('div[id='+ids[i]+']').position().left //край положения портала
      window.location.href = ids[i] + '.html'; 
      return true; 
     } 
-    else 
-     return false; 
    } 
 } 
 
@@ -61,12 +59,11 @@ function portalCheck()
    for(var i = 0; i < ids.length; i++) 
    { 
 
-var portalPos = $('div[id='+ids[i]+']').position().left //край положения портала 
+   var portalPos = parseInt($('div[id='+ids[i]+']').position().left); //край положения портала 
     var portalWidth = parseInt( $('div[id='+ids[i]+']').css("width")); //ширина портала 
-    if(humanPosition > portalPos && humanPosition < portalPos + portalWidth) 
+   
+   if(humanPosition > portalPos && humanPosition < portalPos + portalWidth) 
      return true; 
-    else 
-     return false; 
    } 
 } 
 
@@ -101,56 +98,57 @@ switch(key)
   $(document).keydown(function(e){ 
  var key = e.keyCode; 
   if(!stop) 
-  { 
-   switch(key) 
-   { 
-    case 68: _left+=step; dir = 1;break; 
-    case 65: 
-    if($('.human').position().left > 0) 
-    {_left-= step;} 
-    dir = 0; 
-    $('.human').css('background-image', "url('img/walk_revers.gif')");break; 
-
-} 
-
-if(key == 68 || key == 65) 
-   switch(dir) 
-   { 
-    case 1:$('.human').css('background-image', "url('img/walk.gif')");break; 
-    case 0:$('.human').css('background-image', "url('img/walk_revers.gif')");break 
-   } 
-
-var _clientWidth = document.documentElement.clientWidth; //Ўирина клиентской частм 
-
-//$().scrollTo(document); 
-   if($('.human').position().left >(_clientWidth + window.pageXOffset - borderCam)) 
-   { 
-
-window.scrollBy(step,0); 
-   } 
-
-if($('.human').position().left <(window.pageXOffset + borderCam)) 
-   { 
-    window.scrollBy(-step,0); 
-   } 
-
-$('.human').offset({left:_left}); 
-  } 
-  isOnPortal = portalCheck(); 
-
-if(isOnPortal) 
-  { 
-   $('#panell2').css('background-image',"url('img/dor.bmp')") 
-  } 
-  else 
-  { 
-   $('#panell2').css('background-image',"url('*')") 
-  } 
- // переход на др локацию 
-  if(key == 69) 
-  { 
-   goToPortal(); 
-  } 
+	{ 
+		switch(key) 
+		{ 
+			case 68: _left+=step; dir = 1;break; 
+			case 65: 
+			if($('.human').position().left > 0) 
+			{_left-= step;} 
+			dir = 0; 
+			$('.human').css('background-image', "url('img/walk_revers.gif')");break; 
+		
+			} 
+		
+		if(key == 68 || key == 65) 
+		switch(dir) 
+		{ 
+			case 1:$('.human').css('background-image', "url('img/walk.gif')");break; 
+			case 0:$('.human').css('background-image', "url('img/walk_revers.gif')");break 
+		} 
+		
+		var _clientWidth = document.documentElement.clientWidth; //Ўирина клиентской частм 
+		
+		//$().scrollTo(document); 
+		if($('.human').position().left >(_clientWidth + window.pageXOffset - borderCam)) 
+		{ 
+		
+			window.scrollBy(step,0); 
+		} 
+		
+		if($('.human').position().left <(window.pageXOffset + borderCam)) 
+		{ 
+			window.scrollBy(-step,0); 
+		} 
+		
+		$('.human').offset({left:_left}); 
+	} 
+		
+		isOnPortal = portalCheck(); 
+		
+		if(isOnPortal) 
+		{ 
+		$('#panell2').css('background-image',"url('img/dor.bmp')") 
+		} 
+		else 
+		{ 
+		$('#panell2').css('background-image',"url('*')") 
+		} 
+		// переход на др локацию 
+		if(key == 69) 
+		{ 
+		goToPortal(); 
+		} 
 
 }); 
 
