@@ -1,0 +1,9 @@
+#elements {
+    position: absolute;
+    left: 1000;
+    top: 0;
+    height: initial;
+}
+#editorField {
+    width: 950px;
+}
