@@ -9,10 +9,12 @@ var _layer;
 var _opacity = 0;
 var _x;
 var _y;
+var canDelete=false;
 function createDiv(e)
-{
-	_x = e.clientX;
-			_y = e.clientY;
+{	
+		
+			_x = e.pageX;
+			_y = e.pageY;
 				
 			if(state == 'block')
 			{
@@ -36,11 +38,15 @@ function createDiv(e)
 				
 			}
 			blockCount++;
+			
+
 }
+
+
 function cursorEveryFrame(e)
 {
-			_x = e.clientX;
-			_y = e.clientY;
+			_x = e.pageX;
+			_y = e.pageY;
 				
 			if(state == 'block')
 			{
@@ -111,14 +117,20 @@ $(document).ready(function(){
 			alert(_width + ' ' +_height + ' ' + _color + ' '+ _file);
 		});
 		
-		$('div[id=cursor]').click(function(e){
+		$('div[id=cursor]').mousedown(function(e){
+			
+		
 			createDiv(e);
+		
+			$('div[class=ef]').mousedown(function(e){
+				$(this).remove();		
+			});
+			
 		});
 		
-		$('div[class=ef]').click(function(e){
-			createDiv(e);
-		});
 		
+	
+	
 		$('div[id=editorField]').mousemove(function(e){
 			cursorEveryFrame(e);
 		});
@@ -128,4 +140,18 @@ $(document).ready(function(){
 			
 		});
 		
+		$(document).keyup(function(e){
+			var key = e.keyCode;
+			canDelete = !canDelete;
+			if(canDelete)
+			{
+				$('div[id=cursor]').hide();
+				$('#del').show();
+			}
+			else
+			{
+				$('div[id=cursor]').show();
+				$('#del').hide();
+			}
+		});
 });
