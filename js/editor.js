@@ -28,6 +28,7 @@ function createDiv(e)
 					"opacity": _opacity,
 					"z-index": _layer
 					});
+				obj.addClass("ef")
 			}
 			
 			if(state == 'picture')
@@ -111,6 +112,10 @@ $(document).ready(function(){
 		});
 		
 		$('div[id=cursor]').click(function(e){
+			createDiv(e);
+		});
+		
+		$('div[class=ef]').click(function(e){
 			createDiv(e);
 		});
 		
