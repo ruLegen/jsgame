@@ -3,7 +3,7 @@
     left: 1000;
     top: 20;
     height: initial;
-	z-index: 0;
+	z-index: 1000;
 }
 #editorField {
     width: 950px;
@@ -11,4 +11,7 @@
 }
 body {
   cursor: url("../1.cur"), auto;
+}
+#cursor{
+z-index:-10;	
 }

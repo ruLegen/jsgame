@@ -153,15 +153,19 @@ $(document).ready(function(){
 			if(isNaN(_layer))
 					_layer = 1;
 			_path = $('input[id=path]').val();
-				alert(_width + ' ' +_height + ' ' + _color + ' '+ _file);
+				//alert(_width + ' ' +_height + ' ' + _color + ' '+ _file);
 		});
 		
 		$('div[id=cursor]').mousedown(function(e){
 			
 		
+		});
+		
+		$('body').mousedown(function(e){
+			if(!canDelete)
 			createDiv(e);
 		
-			$('div[class=ef]').mousedown(function(e){
+			$('div[class=ef]').mousedown(function(event){
 				if(canDelete)
 				{
 				 $(this).remove();		
@@ -173,8 +177,6 @@ $(document).ready(function(){
 			});
 			
 		});
-		
-		
 	
 	
 		$('div[id=editorField]').mousemove(function(e){
