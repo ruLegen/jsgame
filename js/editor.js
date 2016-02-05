@@ -19,7 +19,7 @@ function createDiv(e)
 				
 			if(state == 'block')
 			{
-				$('div[id=editorField]').append("<div id=block" + blockCount + "></div>");
+				$('div[id=editorField]').append("<div id=block" + blockCount + "></div>" + "\n");
 				var obj = $("div[id=block"+blockCount+']');
 				obj.css({
 					"width" : _width,
@@ -36,7 +36,7 @@ function createDiv(e)
 			
 			if(state == 'picture')
 			{
-				$('div[id=editorField]').append("<div id=block" + blockCount + "></div>");
+				$('div[id=editorField]').append("<div id=block" + blockCount + "></div>" + "\n");
 				var obj = $("div[id=block"+blockCount+']');
 				obj.css({
 					"width" : _width,
@@ -207,7 +207,7 @@ $(document).ready(function(){
 		$('#exportBtn').click(function(){
 			
 			var newWin = window.open("http://www.w3schools.com");
-			newWin.document.write($('#editorField').html());
+			newWin.document.write($('div[id=editorField]').html());
 			
 		});
 });
