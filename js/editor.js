@@ -161,7 +161,7 @@ $(document).ready(function(){
 		
 		});
 		
-		$('body').mousedown(function(e){
+		$('#editorField').mousedown(function(e){
 			if(!canDelete)
 			createDiv(e);
 		
@@ -170,10 +170,10 @@ $(document).ready(function(){
 				{
 				 $(this).remove();		
 				}
-				else
+				/* else
 				{
-					createDiv(e);
-				}
+					createDiv(event);
+				} */
 			});
 			
 		});
@@ -201,5 +201,13 @@ $(document).ready(function(){
 				$('div[id=cursor]').show();
 				$('#del').hide();
 			}
+		});
+	
+	
+		$('#exportBtn').click(function(){
+			
+			var newWin = window.open("http://www.w3schools.com");
+			newWin.document.write($('#editorField').html());
+			
 		});
 });
