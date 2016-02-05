@@ -1,0 +1,17 @@
+#elements {
+    position: absolute;
+    left: 1000;
+    top: 20;
+    height: initial;
+	z-index: 1000;
+}
+#editorField {
+    width: 950px;
+	height: 100000;
+}
+body {
+  cursor: url("../1.cur"), auto;
+}
+#cursor{
+z-index:-10;	
+}
