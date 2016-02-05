@@ -1,3 +1,5 @@
+var mouse = 0;
+var position = 0;
 var stop = false; 
 var _left=0 ;  
 var _top; 
@@ -13,6 +15,21 @@ var ids = []; // idDivoв
 var divs; // все DIVы 
 var shift = false; 
 var isOnPortal = false; 
+
+function fight(){
+step = 9;
+$('#panell').css('background-image', "url('')");
+if(mouse == 0)
+ {
+	$('body').css({"cursor":'crosshair'});
+	mouse = 1;
+ }
+	else
+ {	
+	$('body').css({"cursor":'auto'});
+	mouse = 0;
+ }
+} 
 $(window).resize(function(){ 
 
   //window.scrollTo(window.pageXOffset,document.documentElement.clientHeight/3); 
@@ -82,9 +99,12 @@ switch(key)
    case 16: shift = !shift;break; 
   } 
   if(shift) 
-  {  
+  {if(mouse == 1){
+   step = 9;
+   $('#panell').css('background-image', "url('')");}
+   else{  
    step = 20;  
-   $('#panell').css('background-image', "url('img/run.bmp')");  
+   $('#panell').css('background-image', "url('img/run.bmp')");}  
   }  
   else 
   {  
@@ -97,12 +117,14 @@ switch(key)
   
   $(document).keydown(function(e){ 
  var key = e.keyCode; 
+ if(key==70)
+{fight();}
   if(!stop) 
 	{ 
 		switch(key) 
 		{ 
-			case 68: _left+=step; dir = 1;break; 
-			case 65: 
+			case 68: _left+=step; dir = 1; position = 0; break; 
+			case 65: position = 1; 
 			if($('.human').position().left > 0) 
 			{_left-= step;} 
 			dir = 0; 
@@ -113,8 +135,15 @@ switch(key)
 		if(key == 68 || key == 65) 
 		switch(dir) 
 		{ 
-			case 1:$('.human').css('background-image', "url('img/walk.gif')");break; 
-			case 0:$('.human').css('background-image', "url('img/walk_revers.gif')");break 
+			case 1: if(mouse==0)
+				$('.human').css('background-image', "url('img/walk.gif')");
+				else
+				$('.human').css('background-image', "url('img/gun.gif')");
+				break; 
+			case 0: if(mouse==1)
+				$('.human').css('background-image', "url('img/gunr.gif')");
+				else
+				$('.human').css('background-image', "url('img/walk_revers.gif')");break 
 		} 
 		
 		var _clientWidth = document.documentElement.clientWidth; //Ўирина клиентской частм 
@@ -154,6 +183,18 @@ switch(key)
 
 $(document).keyup(function(e){ 
  stop = false; 
+if(mouse==1)
+{
+	if(position==0)
+ {
+	$('.human').css('background-image', "url('img/2.png')");
+ }
+	else
+ {
+	$('.human').css('background-image', "url('img/3.png')");
+ }
+}
+else
  $('.human').css('background-image', "url('img/1.png')"); 
  }); 
 
