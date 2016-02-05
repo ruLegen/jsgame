@@ -8,6 +8,7 @@ var _file;
 var _layer;
 var _opacity = 0;
 var _x;
+var _path;
 var _y;
 var canDelete=false;
 function createDiv(e)
@@ -35,7 +36,20 @@ function createDiv(e)
 			
 			if(state == 'picture')
 			{
-				
+				$('div[id=editorField]').append("<div id=block" + blockCount + "></div>");
+				var obj = $("div[id=block"+blockCount+']');
+				obj.css({
+					"width" : _width,
+					"height" : _height,
+					"left": _x,
+					"top":_y,
+					"position":"absolute",
+					"background-image": "url("+_path+"/"+_file+")",
+					"background-size": "contain",
+					"opacity": _opacity,
+					"z-index": _layer
+					});
+				obj.addClass("ef")
 			}
 			blockCount++;
 			
@@ -52,12 +66,35 @@ function cursorEveryFrame(e)
 			{
 				
 				var obj = $("div[id=cursor]");
-				obj.css({"width" : _width,"height" : _height,"left": _x,"top":_y,"position":"absolute","backgroundColor": _color,"background-blend-mode":"overlay","opacity":"0.5"});
+				obj.css({
+					"width" : _width,
+					"height" : _height,
+					"left": _x,
+					"top":_y,
+					"position":"absolute",
+					"backgroundColor": _color,
+					"background-blend-mode":"overlay",
+					"opacity":"0.5"
+					});
 			}
 			
 			if(state == 'picture')
 			{
-				
+				var obj = $("div[id=cursor]");
+					
+				obj.css({
+					"width" : _width,
+					"height" : _height,
+					"left": _x,
+					"top":_y,
+					"position":"absolute",
+					"background":"",
+					"background-image": "url("+_path+"/"+_file+")",
+					"background-blend-mode":"overlay",
+					"background-size":"contain",
+					"opacity":"0.5"
+					});
+
 			}
 }
 
@@ -85,8 +122,9 @@ $(document).ready(function(){
 		if(state == 'picture')
 		{
 			$('div[id=choose]').html(
-			"Ширина <input id='_width' size='6' type='textbox'/></h1></br></br>"+
-			"Высота <input id='_height' size='6' type='textbox'/></h1></br></br>"+
+			"Ширина <input id='_width' size='6' type='textbox' value='250'/></h1></br></br>"+
+			"Высота <input id='_height' size='6' type='textbox'value='250'/></h1></br></br>"+
+			"Путь <input id='path' size='10' type='textbox'value='img'/></br></br>"+
 			"Картинка <input id='_picture' accept='image/*' type='file'/></br></br>"+
 			"Непрозрачность <input id='opacity' type='number' min = '0' max = '100'/></br></br>"+
 			"Слой <input id='index' type='number'/>"
@@ -113,8 +151,9 @@ $(document).ready(function(){
 			
 			_layer = parseInt($('input[id=index]').val());
 			if(isNaN(_layer))
-					_layer = 0;
-			alert(_width + ' ' +_height + ' ' + _color + ' '+ _file);
+					_layer = 1;
+			_path = $('input[id=path]').val();
+				alert(_width + ' ' +_height + ' ' + _color + ' '+ _file);
 		});
 		
 		$('div[id=cursor]').mousedown(function(e){
@@ -123,7 +162,14 @@ $(document).ready(function(){
 			createDiv(e);
 		
 			$('div[class=ef]').mousedown(function(e){
-				$(this).remove();		
+				if(canDelete)
+				{
+				 $(this).remove();		
+				}
+				else
+				{
+					createDiv(e);
+				}
 			});
 			
 		});
