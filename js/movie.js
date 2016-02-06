@@ -21,16 +21,17 @@ var borderLeft = 0;
 function fight(){
 step = 9;
 $('#panell').css('background-image', "url('')");
-if(mouse == 0)
- {
-	$('body').css({"cursor":'crosshair'});
-	mouse = 1;
- }
-	else
- {	
-	$('body').css({"cursor":'auto'});
-	mouse = 0;
- }
+	if(mouse == 0)
+	{
+		$('body').css({"cursor":'crosshair'});
+		mouse = 1;
+	}
+		else
+	{	
+		$('body').css({"cursor":'auto'});
+		mouse = 0;
+	}
+
 } 
 $(window).resize(function(){ 
 
@@ -219,6 +220,18 @@ else
  $('.human').css('background-image', "url('img/1.png')"); 
  }); 
 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+						$.getScript("js/fight.js"); // подключаем файл
+ 
 }); 
 
 
