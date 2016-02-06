@@ -12,8 +12,8 @@ $(document).click(function(event){
 		if(!shot)			//если не стреляет
 		{
 			var audio = new Audio(); // Создаём новый элемент Audio 
-audio.src = 'sound/shot2.wav'; // Указываем путь к звуку "клика" 
-audio.autoplay = true; // Автоматически запускаем 
+			audio.src = 'sound/shot2.wav'; // Указываем путь к звуку "клика" 
+			audio.autoplay = true; // Автоматически запускаем 
 			shot = true;
 			if(dir == 0) //и смотрит влево
 			{
