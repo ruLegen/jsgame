@@ -87,7 +87,7 @@ function portalCheck()
 } 
 function createBorder()
 {
-	borderLeft = parseInt($('#floor').css("width")) - (borderCam+10);
+	borderLeft = parseInt($('#floor').css("width")) - (borderCam+30);
 }
 
 $(document).ready(function() { 
