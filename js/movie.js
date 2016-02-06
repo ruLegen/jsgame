@@ -15,6 +15,8 @@ var ids = []; // idDivoв
 var divs; // все DIVы 
 var shift = false; 
 var isOnPortal = false; 
+var borderLeft = 0;
+
 
 function fight(){
 step = 9;
@@ -41,15 +43,15 @@ function checkDivs()
   divsLng =  $('div').length; 
   divs = $('div'); 
 
-for(var i = 0; i < divsLng; i++) 
-  { 
-   var did = divs[i].id; 
-   if(did[0] == 'P') 
-   { 
-    ids.push(did); 
-   } 
-  // alert("ok " + i +"  "+ did + "  " + $('div[id='+did+']').position().left); 
-  } 
+	for(var i = 0; i < divsLng; i++) 
+	{ 
+	 var did = divs[i].id; 
+	 if(did[0] == 'P') 
+		{ 
+			ids.push(did); 
+		} 
+	// alert("ok " + i +"  "+ did + "  " + $('div[id='+did+']').position().left); 
+	} 
 
 } 
 
@@ -59,13 +61,13 @@ function goToPortal()
    for(var i = 0; i < ids.length; i++) 
    { 
 
-var portalPos = $('div[id='+ids[i]+']').position().left //край положения портала 
-    var portalWidth = parseInt( $('div[id='+ids[i]+']').css("width")); //ширина портала 
-    if(humanPosition > portalPos && humanPosition < portalPos + portalWidth) 
-    { 
-     window.location.href = ids[i] + '.html'; 
-     return true; 
-    } 
+		var portalPos = $('div[id='+ids[i]+']').position().left //край положения портала 
+		var portalWidth = parseInt( $('div[id='+ids[i]+']').css("width")); //ширина портала 
+		if(humanPosition > portalPos && humanPosition < portalPos + portalWidth) 
+		{ 
+			window.location.href = ids[i] + '.html'; 
+			return true; 
+		} 
    } 
 } 
 
@@ -76,59 +78,78 @@ function portalCheck()
    for(var i = 0; i < ids.length; i++) 
    { 
 
-   var portalPos = parseInt($('div[id='+ids[i]+']').position().left); //край положения портала 
-    var portalWidth = parseInt( $('div[id='+ids[i]+']').css("width")); //ширина портала 
-   
-   if(humanPosition > portalPos && humanPosition < portalPos + portalWidth) 
-     return true; 
+	var portalPos = parseInt($('div[id='+ids[i]+']').position().left); //край положения портала 
+	var portalWidth = parseInt( $('div[id='+ids[i]+']').css("width")); //ширина портала 
+	
+	if(humanPosition > portalPos && humanPosition < portalPos + portalWidth) 
+		return true; 
    } 
 } 
+function createBorder()
+{
+	borderLeft = parseInt($('#floor').css("width")) - (borderCam+10);
+}
 
 $(document).ready(function() { 
-   
- document.body.style.overflow = "hidden"; 
-    window.scrollTo(window.pageXOffset,document.documentElement.clientHeight/3,5); 
+
+	createBorder();
+	document.body.style.overflow = "hidden"; 
+	window.scrollTo(window.pageXOffset,document.documentElement.clientHeight/3.5); 
 
     checkDivs(); 
  // для шифта.. Бег 
   $(document).keyup(function(e){ 
   var key = e.keyCode; 
 
-switch(key) 
-  { 
-   case 16: shift = !shift;break; 
-  } 
-  if(shift) 
-  {if(mouse == 1){
-   step = 9;
-   $('#panell').css('background-image', "url('')");}
-   else{  
-   step = 20;  
-   $('#panell').css('background-image', "url('img/run.bmp')");}  
-  }  
-  else 
-  {  
-   step = 9;  
-   $('#panell').css('background-image', "url('')");  
-  }  
-
+	switch(key) 
+	{ 
+	case 16: shift = !shift; break; 
+	} 
+	if(shift) 
+	{
+		if(mouse == 1){
+			step = 9;
+			$('#panell').css('background-image', "url('')");
+		}
+		
+		else{  
+		step = 20;  
+		$('#panell').css('background-image', "url('img/run.bmp')");
+		}  
+	}  
+	else 
+	{  
+		step = 9;  
+		$('#panell').css('background-image', "url('')");  
+	}  
+	
 }); 
      
   
   $(document).keydown(function(e){ 
  var key = e.keyCode; 
  if(key==70)
-{fight();}
+	{
+		fight();
+	}
   if(!stop) 
 	{ 
 		switch(key) 
 		{ 
-			case 68: _left+=step; dir = 1; position = 0; break; 
+			case 68: 
+			if($('.human').position().left < borderLeft)
+				_left+=step; 
+			dir = 1; 
+			position = 0; 
+			break; 
+			
+			
 			case 65: position = 1; 
 			if($('.human').position().left > 0) 
-			{_left-= step;} 
+				_left-= step;
 			dir = 0; 
-			$('.human').css('background-image', "url('img/walk_revers.gif')");break; 
+			$('.human').css('background-image', "url('img/walk_revers.gif')");
+			break; 
 		
 			} 
 		
