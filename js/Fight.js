@@ -1,4 +1,4 @@
-var shot = false;
+﻿var shot = false;
 var currentAmmo = 6;
 var totalAmmo = 18;
 
@@ -52,7 +52,7 @@ $(document).click(function(event){
 					
 					if(dir == 0)
 						$('.human').css('background-image', "url('img/3.png')");
-				    if(dir == 1)
+				        if(dir == 1)
 						$('.human').css('background-image', "url('img/2.png')");
 					shot = false;		
 					stop = false;
@@ -78,8 +78,8 @@ $(document).ready(function(){
 				shot = true;
 				window.setTimeout(function(){
 					
-				totalAmmo -= 9;
-				currentAmmo += 9;
+				totalAmmo -= 6;
+				currentAmmo += 6;
 				shot = false;
 				},5000);
 			}
