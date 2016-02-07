@@ -291,13 +291,13 @@ $(document).click(function(event){
 					stop = false;
 				},700);
 			}
-			if(currentAmmo > 0 && !shot)
+			if(currentAmmo > 0)
 			{
 				currentAmmo --;
 			}
 		}
 	}
-$('#panell3').text(currentAmmo + ' / ' + totalAmmo );
+
 	
 });
 
@@ -305,7 +305,7 @@ $('#panell3').text(currentAmmo + ' / ' + totalAmmo );
 $(document).ready(function(){
 	
 	window.setInterval(function(){
-		
+		/*
 			if(currentAmmo == 0 && totalAmmo > 0)
 			{
 				shot = true;
@@ -316,6 +316,9 @@ $(document).ready(function(){
 				shot = false;
 				},5000);
 			}
+			
+			*/
+			$('#panell3').text(currentAmmo + ' / ' + totalAmmo );
 	},2);
 	
 });
