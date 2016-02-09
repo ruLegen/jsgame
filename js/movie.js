@@ -18,6 +18,17 @@ var isOnPortal = false;
 var borderLeft = 0;
 
 
+////////////////////////////////////////////////////////// Ќиже дл€ боевой системы
+var shot = false;
+var currentAmmo = 6;
+var totalAmmo = '&infin;';
+var maxAmmo = 6;
+var seqOfInput = new Array();
+var isReload = false;
+var rightCombination = new Array('R','J','Z');
+
+
+
 function fight(){
 step = 9;
 $('#panell').css('background-image', "url('')");
@@ -91,6 +102,12 @@ function createBorder()
 	borderLeft = parseInt($('#floor').css("width")) - (borderCam+30);
 }
 
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() { 
 
 	createBorder();
@@ -205,19 +222,53 @@ $(document).ready(function() {
 
 $(document).keyup(function(e){ 
  stop = false; 
-if(mouse==1)
+var key = String.fromCharCode(e.keyCode);
+
+ if(mouse==1)
 {
 	if(position==0)
- {
-	$('.human').css('background-image', "url('img/2.png')");
- }
+	{
+		$('.human').css('background-image', "url('img/2.png')");
+	}
 	else
- {
-	$('.human').css('background-image', "url('img/3.png')");
- }
+	{
+		$('.human').css('background-image', "url('img/3.png')");
+	}
 }
 else
  $('.human').css('background-image', "url('img/1.png')"); 
+
+ 
+	if(seqOfInput.length != 3) // если в массиве больше 3 »нпутов
+	{
+	
+		if(key == 'R' || key == 'J' || key == 'Z') // если нажата одна из этих клавиш
+		{
+		seqOfInput.push(key); 						//то записываем в массив
+		}
+		else
+			seqOfInput = new Array();				//иначе обнул€ем его
+
+		//иначе обнул€ем его
+	}
+	
+	if(seqOfInput.length == 3)
+	{
+		for(var i = 0; i < seqOfInput.length; i++)
+		{
+			if(seqOfInput[i] == rightCombination[i] && i == 2)
+			{
+				if(mouse == 1 && currentAmmo < maxAmmo) // если дробовик
+				{
+					isReload = true;
+					currentAmmo++;
+				}
+			}
+
+		}
+		seqOfInput = new Array();
+	}
+
  }); 
 
  
@@ -231,17 +282,16 @@ else
  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Ѕоева€ часть //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  
- var shot = false;
-var currentAmmo = 6;
-var totalAmmo = 18;
 
 $(document).click(function(event){
 	
-		
+	
+if(currentAmmo > 0) // если патронов больше 0
+{
+				
 	if(mouse == 1)				//если дробовик
 	{
-			stop = true;  //остановить персонажа
-		
+		stop = true;  //остановить персонажа
 		if(!shot)			//если не стрел€ет
 		{
 			var audio = new Audio(); // —оздаЄм новый элемент Audio 
@@ -271,7 +321,7 @@ $(document).click(function(event){
 	
 				
 			}
-			
+			////////////////////////////////////////////////////////////////////////////////
 			if(dir == 1) //и смотрит влево
 			{
 				
@@ -291,13 +341,11 @@ $(document).click(function(event){
 					stop = false;
 				},700);
 			}
-			if(currentAmmo > 0)
-			{
-				currentAmmo --;
-			}
+			currentAmmo --;
 		}
+	/////////////////////////////////////////////////////////////////////////////////////
 	}
-
+}
 	
 });
 
@@ -318,7 +366,31 @@ $(document).ready(function(){
 			}
 			
 			*/
-			$('#panell3').text(currentAmmo + ' / ' + totalAmmo );
+			
+			$('#panell4').html(seqOfInput[seqOfInput.length - 1]);
+			
+			
+			$('#panell3').html(currentAmmo + ' / ' + totalAmmo );
+			
+				if(isReload) // если перезар€дка 
+				{
+					isReload = false;
+					shot = true;
+					stop = true;
+					$('.human').css('background-image', "url('img/res.gif')");
+					window.setTimeout(function(){
+						if(dir == 1)
+							$('.human').css('background-image', "url('img/2.png')");
+						if(dir == 0)
+							$('.human').css('background-image', "url('img/3.png')");
+						
+					shot = false;
+					stop = false;
+					
+					},400);
+					
+				}
+				
 	},2);
 	
 });
