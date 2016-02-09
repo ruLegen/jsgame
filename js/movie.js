@@ -16,7 +16,7 @@ var divs; // все DIVы
 var shift = false; 
 var isOnPortal = false; 
 var borderLeft = 0;
-
+var state = 0;
 
 ////////////////////////////////////////////////////////// Ниже для боевой системы
 var shot = false;
@@ -237,7 +237,7 @@ var key = String.fromCharCode(e.keyCode);
 }
 else
  $('.human').css('background-image', "url('img/1.png')"); 
-
+/* 
  
 	if(seqOfInput.length != 3) // если в массиве больше 3 Инпутов
 	{
@@ -257,17 +257,23 @@ else
 		for(var i = 0; i < seqOfInput.length; i++)
 		{
 			if(seqOfInput[i] == rightCombination[i] && i == 2)
-			{
-				if(mouse == 1 && currentAmmo < maxAmmo) // если дробовик
+			{*/
+		if(mouse == 1 && currentAmmo < maxAmmo) // если дробовик
+			{ 
+				switch(key)
 				{
-					isReload = true;
-					currentAmmo++;
+					case 'R':state = 1;break;
+					case 'J':if(state == 1) state = 2; else state = 0;break;
+					case 'Z':if(state == 2){isReload = true;currentAmmo++;} else state = 0; break;
+					default:state = 0;
+					
 				}
+			}/* 	
 			}
 
 		}
 		seqOfInput = new Array();
-	}
+	} */
 
  }); 
 
