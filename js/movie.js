@@ -1,3 +1,5 @@
+var globalID = 0;
+var Enemyes = new Array();
 var mouse = 0;
 var position = 0;
 var stop = false; 
@@ -17,7 +19,8 @@ var shift = false;
 var isOnPortal = false; 
 var borderLeft = 0;
 var state = 0;
-
+var enemy;
+var countEnemy = 0;
 ////////////////////////////////////////////////////////// Ниже для боевой системы
 var shot = false;
 var currentAmmo = 6;
@@ -27,7 +30,118 @@ var seqOfInput = new Array();
 var isReload = false;
 var rightCombination = new Array('R','J','Z');
 
-
+///////////////////////////////////////////////////////////класс врага
+function findEnemy(mas,id)
+{
+	for(var i = 0; i < mas.length;i++)
+	{
+		
+		if(mas[i].id == id)
+		{
+			mas[i].kill();
+		}
+	}
+}
+function Enemy(){
+	this.x = 882;
+	this.y = 608;
+	this._id = globalID;
+	this.id = 'enemy'+ this._id;
+	
+//	this.number = _id;
+	this.attack = false;
+	this.stop = false;
+	this.imgDir = "img/";
+	this.image = this.imgDir + "1.png";
+	this.direction = 0;
+	this.width =190;
+	this.isDead = false;
+	
+	
+	this.setImg= function setImage(img){
+		this.image = this.imgDir + img;
+		$('#enemy'+this._id).css({"background":"url("+this.image+")"});
+	}
+	this.kill = function(){
+		this.isDead = true;
+		this.setImg('shut1.png');
+	}
+	this.setPos = function pos(_x){
+		this.x = _x;
+		//this.y = _y;	
+	}
+	
+	this.setRandLeft = function randLeft(){
+	var maxLeft = 0;
+	var minLeft = window.pageXOffset;
+	this.direction = 0;
+	return Math.floor(Math.random() * (maxLeft - minLeft + 1)) + minLeft;
+	}
+	
+	this.setRandRight = function randRight(){
+		var maxRight = parseInt($('#floor').css("width")) + borderCam + 50;
+		var minRight =  window.pageXOffset + document.body.clientHeight;
+		this.direction = 1;
+		return Math.floor(Math.random() * (maxRight - minRight + 1)) + minRight;
+	}
+	
+	this.posBy = function mvBy(x){
+		this.x += x;
+		$('#enemy' + this._id).css("left",this.x);
+	}
+	
+	
+	this.add = function _add(){
+		var rand = Math.random();		
+		if(rand > 0.5)					// случайно спавним либо левее игрока либо правее
+			{
+				var leftPos = this.setRandLeft();		//лево
+				this.setPos(leftPos);
+			}
+		if(rand < 0.5)
+			{
+				var rightPos = this.setRandRight();
+				this.setPos(rightPos);
+			}
+		this._id = globalID;
+		globalID++;
+		$('div[class=enemy]').append("<div id="+'enemy' + this._id+"></div>");
+		$('#enemy' + this._id).css({
+			"left": this.x,
+			"top" : this.y,
+			"width": this.width,
+			"height": "300",
+			"position":"absolute",
+			"background": "url("+this.image+")",
+			"z-index": "9"});
+	}
+	this.add();
+	
+	this.move = function(){
+		
+		if(!this.isDead)
+		{
+				if(this.direction == 0)
+				{
+					if(this.x + this.width < $('.human').position().left)
+					{
+						this.posBy(5);
+					}		
+				}
+			
+				if(this.direction == 1)
+				{
+					
+					if(this.x > $('.human').position().left + parseInt($('.human').css("width")))
+					{
+						this.posBy(-5);
+					}
+				}
+				
+		}
+	}
+	
+}
 
 function fight(){
 step = 9;
@@ -109,7 +223,9 @@ function createBorder()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() { 
-
+	
+	
+	
 	createBorder();
 	document.body.style.overflow = "hidden"; 
 	window.scrollTo(window.pageXOffset,document.documentElement.clientHeight/3.5); 
@@ -280,14 +396,14 @@ else
  
  
  
- 
+                                                                                               
  
  
  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Боевая часть //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- 
+
 
 $(document).click(function(event){
 	
@@ -357,8 +473,8 @@ if(currentAmmo > 0) // если патронов больше 0
 
 
 $(document).ready(function(){
-	
-	window.setInterval(function(){
+		
+		window.setInterval(function(){
 		/*
 			if(currentAmmo == 0 && totalAmmo > 0)
 			{
@@ -393,11 +509,51 @@ $(document).ready(function(){
 					shot = false;
 					stop = false;
 					
-					},400);
+					},700);
 					
 				}
-				
 	},2);
+	
+
+	window.setInterval(function(){
+		
+		if(countEnemy < 7)
+		{
+			Enemyes[Enemyes.length] = new Enemy();
+			countEnemy++;
+			
+			$('div[id ^= enemy]').on("click",function(){
+				var thisEnemy = this;
+				if(mouse == 1 && currentAmmo > 0)
+				{
+					window.setTimeout(function(){ 
+				
+					countEnemy --;
+					findEnemy(Enemyes,thisEnemy.id)
+					
+					
+					},400); 
+				}
+			});
+ 			
+		}
+		
+					
+					
+	},9000);
+	
+	
+	
+	window.setInterval(function(){
+		
+				if(Enemyes.length != 0)
+					{ 
+						for(var i = 0; i < Enemyes.length;i++)
+						{					
+							Enemyes[i].move();
+						}
+					}
+	},40);
 	
 });
 			
@@ -419,6 +575,6 @@ function parallax(){
  } 
 $(window).scroll(function(e){ 
     parallax(); 
- window.scrollTo(window.pageXOffset,document.documentElement.clientHeight/3,5); 
-
+ window.scrollTo(window.pageXOffset,Math.floor(document.documentElement.clientHeight/3));
 });
+
