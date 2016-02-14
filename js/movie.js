@@ -567,11 +567,13 @@ $(document).ready(function(){
 function parallax(){ 
     var scrolled = $(window).scrollLeft(); 
 $('.back1').css('left', +(scrolled) + 'px'); 
+$('#floory2').css('left', +(scrolled) + 'px');
  } 
 
 function parallax(){ 
     var scrolled = $(window).scrollLeft(); 
-    $('.back1').css('left', +(scrolled * 0.5) + 'px'); 
+    $('.back1').css('left', +(scrolled * 0.5) + 'px');
+    $('#floory2').css('left', +(scrolled * 0.1) + 'px'); 
  } 
 $(window).scroll(function(e){ 
     parallax(); 
