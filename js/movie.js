@@ -52,7 +52,7 @@ function Enemy(){
 	this.attack = false;
 	this.stop = false;
 	this.imgDir = "img/";
-	this.image = this.imgDir + "1.png";
+	this.image = this.imgDir + "huileft.gif";
 	this.direction = 0;
 	this.width =190;
 	this.isDead = false;
@@ -64,7 +64,7 @@ function Enemy(){
 	}
 	this.kill = function(){
 		this.isDead = true;
-		this.setImg('shut1.png');
+		this.setImg('death.gif');
 	}
 	this.setPos = function pos(_x){
 		this.x = _x;
@@ -108,9 +108,9 @@ function Enemy(){
 		$('div[class=enemy]').append("<div id="+'enemy' + this._id+"></div>");
 		$('#enemy' + this._id).css({
 			"left": this.x,
-			"top" : this.y,
-			"width": this.width,
-			"height": "300",
+			"top" : this.y-85,
+			"width": this.width+50,
+			"height": "378",
 			"position":"absolute",
 			"background": "url("+this.image+")",
 			"z-index": "9"});
@@ -125,7 +125,7 @@ function Enemy(){
 				{
 					if(this.x + this.width < $('.human').position().left)
 					{
-						this.posBy(5);
+						this.posBy(15);
 					}		
 				}
 			
@@ -134,7 +134,7 @@ function Enemy(){
 					
 					if(this.x > $('.human').position().left + parseInt($('.human').css("width")))
 					{
-						this.posBy(-5);
+						this.posBy(-15);
 					}
 				}
 				
