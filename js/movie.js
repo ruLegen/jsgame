@@ -1,3 +1,4 @@
+window.history.replaceState(null,"э22","game.html");
 var globalID = 0;
 var Enemyes = new Array();
 var mouse = 0;
@@ -21,6 +22,11 @@ var isOnPortal = false;
 var borderLeft = 0;
 var state = 0;
 var countEnemy = 0;
+
+var countKilledEnemy = 0;
+var maxEnemy = 1;
+var availableNextLvl = false;
+
 ////////////////////////////////////////////////////////// Ниже для боевой системы
 var shot = false;
 var currentAmmo = 6;
@@ -30,7 +36,6 @@ var seqOfInput = new Array();
 var isReload = false;
 var rightCombination = new Array('R','J','Z');
 
-///////////////////////////////////////////////////////////класс врага
 function findEnemy(mas,id)
 {
 	for(var i = 0; i < mas.length;i++)
@@ -48,6 +53,8 @@ function findEnemy(mas,id)
 		}
 	}
 }
+///////////////////////////////////////////////////////////класс врага
+
 function Enemy(){
 	this.x = 882;
 	this.y = $('.human').position().top;
@@ -71,6 +78,8 @@ function Enemy(){
 	this.kill = function(){
 		this.isDead = true;
 		this.setImg('death.gif');
+		countKilledEnemy++;
+		$('#panell5').text('Осталось врагов ' + (maxEnemy - countKilledEnemy));
 	}
 	this.setPos = function pos(_x){
 		this.x = _x;
@@ -182,7 +191,7 @@ function checkDivs()
 	 var did = divs[i].id; 
 	 if(did[0] == 'P') 
 		{ 
-			ids.push(did); 
+			ids.push(did);
 		} 
 	// alert("ok " + i +"  "+ did + "  " + $('div[id='+did+']').position().left); 
 	} 
@@ -287,7 +296,7 @@ function gameOver()
 	$('#yes').click(function(){
 		$(this).css('border-color','rgba(39, 174, 176, 1)');
 		setTimeout(function(){
-			window.location = '/P2part.html';
+			window.location = '/PIndex.html';
 		},100);
 	});
 	
@@ -309,7 +318,7 @@ function gameOver()
 $(document).ready(function() { 
 	
 	
-	
+	$('#panell5').text('Осталось врагов ' + (maxEnemy - countKilledEnemy));
 	createBorder();
 	document.body.style.overflow = "hidden"; 
 	window.scrollTo(window.pageXOffset,document.documentElement.clientHeight/3.5); 
@@ -405,18 +414,18 @@ $(document).ready(function() {
 		$('.human').offset({left:_left}); 
 	} 
 		
-		isOnPortal = portalCheck(); 
+		isOnPortal = portalCheck() * availableNextLvl; 
 		
 		if(isOnPortal) 
 		{ 
-		$('#panell2').css('background-image',"url('img/dor.bmp')") 
+			$('#panell2').css('background-image',"url('img/dor.bmp')") 
 		} 
 		else 
 		{ 
-		$('#panell2').css('background-image',"url('*')") 
+			$('#panell2').css('background-image',"url('*')") 
 		} 
 		// переход на др локацию 
-		if(key == 69) 
+		if(key == 69 && availableNextLvl) 
 		{ 
 		goToPortal(); 
 		} 
@@ -627,7 +636,7 @@ $(document).ready(function(){
 
 	window.setInterval(function(){
 		
-		if(countEnemy < 7 && !humanDead)
+		if(countEnemy < 7 && !humanDead && countKilledEnemy != maxEnemy)
 		{
 			Enemyes[Enemyes.length] = new Enemy();
 			countEnemy++;
@@ -638,8 +647,14 @@ $(document).ready(function(){
 				{
 					window.setTimeout(function(){ 
 				
+					
 					countEnemy --;
-					findEnemy(Enemyes,thisEnemy.id)
+					findEnemy(Enemyes,thisEnemy.id);
+					if(countKilledEnemy == maxEnemy)
+					{
+						availableNextLvl = true;
+					}
+					
 					
 					
 					},400); 
