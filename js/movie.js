@@ -4,6 +4,7 @@ var mouse = 0;
 var position = 0;
 var stop = false; 
 var _left=0 ;  
+var humanDead = false;
 var _top; 
 var _height; 
 var step = 9; 
@@ -19,7 +20,6 @@ var shift = false;
 var isOnPortal = false; 
 var borderLeft = 0;
 var state = 0;
-var enemy;
 var countEnemy = 0;
 ////////////////////////////////////////////////////////// Ниже для боевой системы
 var shot = false;
@@ -38,7 +38,10 @@ function findEnemy(mas,id)
 		
 		if(mas[i].id == id)
 		{
-			mas[i].kill();
+			var enemy = mas[i];
+			
+			if(enemy.direction == dir)
+				mas[i].kill();
 		}
 	}
 }
@@ -72,16 +75,18 @@ function Enemy(){
 	}
 	
 	this.setRandLeft = function randLeft(){
-	var maxLeft = 0;
-	var minLeft = window.pageXOffset;
-	this.direction = 0;
-	return Math.floor(Math.random() * (maxLeft - minLeft + 1)) + minLeft;
+		var maxLeft = 0;
+		var minLeft = window.pageXOffset;
+		this.direction = 0;
+		this.setImg('huiright.gif');
+		return Math.floor(Math.random() * (maxLeft - minLeft + 1)) + minLeft;
 	}
 	
 	this.setRandRight = function randRight(){
 		var maxRight = parseInt($('#floor').css("width")) + borderCam + 50;
 		var minRight =  window.pageXOffset + document.body.clientHeight;
 		this.direction = 1;
+		this.setImg('huileft.gif');
 		return Math.floor(Math.random() * (maxRight - minRight + 1)) + minRight;
 	}
 	
@@ -119,7 +124,7 @@ function Enemy(){
 	
 	this.move = function(){
 		
-		if(!this.isDead)
+		if(!this.isDead && !humanDead)
 		{
 				if(this.direction == 0)
 				{
@@ -216,7 +221,83 @@ function createBorder()
 	borderLeft = parseInt($('#floor').css("width")) - (borderCam+30);
 }
 
+function gameOver()
+{
+	humanDead = true;
+	$('body').append("<div id='gameover'></div>");
+	$('#gameover').hide();
+	$('#gameover').css({
+		"position":"absolute",
+		"width": 400,
+		"height": 75,
+		"background": 'rgba(2, 142, 155, 0.41)',
+		"left":$('.human').position().left -180,
+		"top":$('.human').position().top -120,//+parseInt($('.human').css('height'))+ 120,//document.documentElement.clientHeight/2,
+		"z-index":9999999,
+		"border-radius":'5px',
+		'border-style' :'outset',
+		'border-color':'rgba(115, 203, 189, 0.870588)'
+	},500);
+	$('#gameover').append("<p class='txt' id = 'yes'>Заного??</p>");
+	$('#gameover').append("<p class='txt' id = 'no'>Нет!</p>");
+	
+	$('#yes').css({
+		"left":"25",
+		'width': 25*8,
+	});
+	
+	$('#no').css({
+		"left":"260",
+		'width': 25*4,
+	});
+	
+	
+		
+	$('.txt').css({
+		"position": 'inherit',
+		"font-size": '48',
+		"color": "rgba(0, 255, 106, 0.84)",
+		'top':"-42",
+		'text-align':'center'
+		});
+	
+	$('.txt').mouseover(function(){
+		$(this).css({
+			"background":"rgba(39, 174, 176, 0.34)",
+			'cursor':'cell',
+			"border-radius":'5px',
+			'border-style' :'outset',
+			'border-color':'rgba(39, 174, 176, 0.34)'
+		});
 
+	});
+	
+	$('.txt').mouseleave(function(){
+		$(this).css({
+			"background":"",
+			'cursor':'default',
+			"border-radius":'0',
+			'border-style' :'none',
+			'border-color':''
+		});
+	});
+	$('#yes').click(function(){
+		$(this).css('border-color','rgba(39, 174, 176, 1)');
+		setTimeout(function(){
+			window.location = '/P2part.html';
+		},100);
+	});
+	
+	$('#no').click(function(){
+		$(this).css('border-color','rgba(39, 174, 176, 1)');
+		setTimeout(function(){
+			alert("Ну и зря");
+			window.location = 'gameover.html';
+		},100);
+	});
+	
+	$('#gameover').show("slow");	
+}
 
 
 
@@ -261,6 +342,9 @@ $(document).ready(function() {
      
   
   $(document).keydown(function(e){ 
+  if(!humanDead){
+	  
+  
  var key = e.keyCode; 
  if(key==70)
 	{
@@ -333,10 +417,11 @@ $(document).ready(function() {
 		{ 
 		goToPortal(); 
 		} 
-
+}
 }); 
 
 $(document).keyup(function(e){ 
+
  stop = false; 
 var key = String.fromCharCode(e.keyCode);
 
@@ -408,7 +493,7 @@ else
 $(document).click(function(event){
 	
 	
-if(currentAmmo > 0) // если патронов больше 0
+if(currentAmmo > 0 && !humanDead) // если патронов больше 0
 {
 				
 	if(mouse == 1)				//если дробовик
@@ -486,7 +571,6 @@ $(document).ready(function(){
 				shot = false;
 				},5000);
 			}
-			
 			*/
 			
 			$('#panell4').html(seqOfInput[seqOfInput.length - 1]);
@@ -512,19 +596,42 @@ $(document).ready(function(){
 					},700);
 					
 				}
+		//////////////////////////////////////////////////////GAME OVER
+		 	if(Enemyes.length !=0 && !humanDead)
+			{
+				for(var i = 0; i < Enemyes.length; i++)
+				{
+					var enemy = Enemyes[i];
+					if(!enemy.isDead)
+					{
+						
+						if(enemy.direction == 0)
+							if($('#'+enemy.id).position().left + enemy.width>= $('.human').position().left)
+							{
+								gameOver();
+							}
+							
+						if(enemy.direction == 1)
+							if($('#'+enemy.id).position().left <= $('.human').position().left + parseInt($('.human').css('width')))
+							{
+								gameOver();
+							}
+					}
+				}
+			} 
 	},2);
 	
 
 	window.setInterval(function(){
 		
-		if(countEnemy < 7)
+		if(countEnemy < 7 && !humanDead)
 		{
 			Enemyes[Enemyes.length] = new Enemy();
 			countEnemy++;
 			
 			$('div[id ^= enemy]').on("click",function(){
 				var thisEnemy = this;
-				if(mouse == 1 && currentAmmo > 0)
+				if(mouse == 1 && currentAmmo > 0 && !humanDead)
 				{
 					window.setTimeout(function(){ 
 				
