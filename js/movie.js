@@ -603,7 +603,7 @@ $(document).ready(function(){
 				for(var i = 0; i < Enemyes.length; i++)
 				{
 					var enemy = Enemyes[i];
-					if(!enemy.isDead)
+					if(!enemy.isDead && !humanDead)
 					{
 						
 						if(enemy.direction == 0)
