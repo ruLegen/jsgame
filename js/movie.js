@@ -239,7 +239,7 @@ function gameOver()
 		'border-style' :'outset',
 		'border-color':'rgba(115, 203, 189, 0.870588)'
 	},500);
-	$('#gameover').append("<p class='txt' id = 'yes'>Заного??</p>");
+	$('#gameover').append("<p class='txt' id = 'yes'>Заново?</p>");
 	$('#gameover').append("<p class='txt' id = 'no'>Нет!</p>");
 	
 	$('#yes').css({
@@ -389,7 +389,7 @@ $(document).ready(function() {
 		var _clientWidth = document.documentElement.clientWidth; //Ўирина клиентской частм 
 		
 		//$().scrollTo(document); 
-		if($('.human').position().left >(_clientWidth + window.pageXOffset - borderCam)) 
+		if($('.human').position().left >(_clientWidth + window.pageXOffset - borderCam-300)) 
 		{ 
 		
 			window.scrollBy(step,0); 
