@@ -1,0 +1,104 @@
+<html> 
+
+<head> 
+<meta name="viewport" content="width=device-width"> 
+<script type="text/javascript" src="js/jq.js"></script> 
+<script type="text/javascript"src="js/movie.js"></script>
+<title>HumanWalk</title> 
+<style type="text/css"> 
+body{
+background:lightgrey;
+
+}
+#floor{
+background:black;
+width:1000px;
+height:400px;
+position:absolute;
+top:0;
+left:150;
+z-index:1;
+}
+#floor1{
+background:black;
+width:1000px;
+height:400px;
+position:absolute;
+top:700;
+left:150;
+z-index:1;
+}
+#s1{
+background:black;
+width:400px;
+height:1000px;
+position:absolute;
+top:0;
+left:150;
+z-index:1;
+}
+#s2{
+background:black;
+width:400px;
+height:1000px;
+position:absolute;
+top:0;
+left:850;
+z-index:1;
+}
+#table{
+width:300px;
+height:20px;
+position:absolute;
+top:200;
+left:550;
+font-size:x-large;
+z-index:1;
+}
+#table2{
+background:url("img/Animation.gif");
+width:400px;
+height:400px;
+position:absolute;
+top:395;
+left:610;
+background-repeat: no-repeat;
+z-index:0;
+}
+#table:hover {
+-webkit-transform: scale(5);
+-moz-transform: scale(5);
+-o-transform: scale(5);
+}
+#table {
+  -webkit-animation: table 1s linear infinite;
+  animation: table 1s linear infinite;
+}
+@-webkit-keyframes table {
+  45% { color: rgb(100, 34, 34); }
+  100% { color: rgba(34, 34, 34, 0); }
+}
+@keyframes table {
+  55% { color: rgb(100, 44, 34); }
+  100% { color: rgba(34, 34, 34, 0); }
+}
+</style>
+</head>
+<body>
+<div id="floor1"></div> 
+<div id="floor"></div> 
+<div id="s1"></div> 
+<div id="s2"></div> 
+<div class="back1"></div> 
+<div class="human"></div>
+<div id="fr"></div> 
+<div id="table"><center><font>Комната для тех, кто нажимает клавишу F5</center></font></div> 
+<div id="table2"></div>
+<div id="Pindex"></div>
+<div id="P3part"></div>
+<div id="panell"></div>
+<div id="panell2"></div> 
+<div id="panell3"></div>
+<div id="panell4"></div> 
+</body> 
+</html>
