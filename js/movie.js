@@ -42,12 +42,13 @@ function findEnemy(mas,id)
 			
 			if(enemy.direction == dir)
 				mas[i].kill();
+				humanDead = false;
 		}
 	}
 }
 function Enemy(){
 	this.x = 882;
-	this.y = 608;
+	this.y = $('.human').position().top;
 	this._id = globalID;
 	this.id = 'enemy'+ this._id;
 	
