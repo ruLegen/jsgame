@@ -41,8 +41,10 @@ function findEnemy(mas,id)
 			var enemy = mas[i];
 			
 			if(enemy.direction == dir)
+				$("#gameover").remove();
 				mas[i].kill();
 				humanDead = false;
+				
 		}
 	}
 }
