@@ -1,4 +1,4 @@
-window.history.replaceState(null,"э22","game.html");
+//window.history.replaceState(null,"э22","game.html");
 var globalID = 0;
 var Enemyes = new Array();
 var mouse = 0;
@@ -9,7 +9,7 @@ var humanDead = false;
 var _top; 
 var _height; 
 var step = 9; 
-var borderCam = 350; 
+var borderCam = 650; 
 var camOffset = 0; 
 var camOffsetRight = 0; 
 var dir; // направление для анимации 
@@ -400,7 +400,7 @@ $(document).ready(function() {
 		var _clientWidth = document.documentElement.clientWidth; //Ўирина клиентской частм 
 		
 		//$().scrollTo(document); 
-		if($('.human').position().left >(_clientWidth + window.pageXOffset - borderCam-300)) 
+		if($('.human').position().left >(_clientWidth + window.pageXOffset - borderCam)) 
 		{ 
 		
 			window.scrollBy(step,0); 
