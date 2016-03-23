@@ -106,16 +106,17 @@ function Boss ()
 				"border-radius" : "4px"
 			});
 			$('#red').css({
-				"position":"fixed",
+				"position":"inherit",
 				"width" : this.width,
 				"height" : "20px",
 				"border-radius" : "4px",
 				"background" : "#DE0D0D"
 			});
 			$('#green').css({
-				"position":"fixed",
+				"position":"inherit",
 				"width" : this.width,
 				"height" : "20px",
+				"top":-20,
 				"border-radius" : "4px",
 				"background" : "#19CC49"
 			});
@@ -130,6 +131,7 @@ function Boss ()
 			"height": this.height,
 			"left":this.x,
 			"top":this.y,
+			"z-index":8,
 			"background":"url("+this.fullDir+")"
 		});
 	}
