@@ -1,17 +1,18 @@
 var human =""
 var bossStart = 2300;
 var whenBossSpawn = 1000;
-var boss = "";
+var bossClass = "";
 var i = 0;
 var allowShot = true;
 var timeoutID = 0;
 var timerID = -6;
+var boss = "";
 function onLoadDocument()
 {
 	var human = $('.human');
 }
 function Boss ()
-{
+{	bossClass = this;
 	this.allowMove = true;
 	this.killed = false;
 	this.width = 330;
@@ -105,7 +106,6 @@ function Boss ()
 		this.updatePos();
 	}
 	this.startFunction = function ff(){
-	
 		if($('boss').length == 0)
 		{
 			$('body').append('<boss></boss>');
@@ -151,16 +151,28 @@ function Boss ()
 			"background":"url("+this.fullDir+")"
 		});
 		
-		var timerID = setInterval(function(){
+		 timerID = setInterval(function(){
 		
-				if($('.human').position().left + $('.human').width() > boss.leftPos() && !boss.killed)
+				if($('.human').position().left + $('.human').width() > boss.leftPos() && !boss.killed && !humanDead)
 				{
 					humanDead = true;
+					
+					$('.human').hide();
+					$('boss').css("width",463);
+					bossClass.setImg('img/humanDeathBoss.gif');
+					bossClass.allowMove = false;
+					clearInterval(timerID);
+					
 				}
-				else if(!boss.killed && boss.allowMove)
+				else if(!boss.killed && boss.allowMove && !humanDead)
 				{
 					boss.moveBy();
 					boss.setImg("img/boss_walk.gif");
+				}
+				else if(humanDead)
+				{
+					bossClass.setImg('img/bossAppear.png');
+					clearInterval(timerID);
 				}
 				
 			},2);
