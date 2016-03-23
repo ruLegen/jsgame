@@ -24,7 +24,7 @@ var state = 0;
 var countEnemy = 0;
 
 var countKilledEnemy = 0;
-var maxEnemy = 1;
+var maxEnemy = 0;
 var availableNextLvl = false;
 
 ////////////////////////////////////////////////////////// Ниже для боевой системы
@@ -78,9 +78,9 @@ function Enemy(){
 	this.kill = function(){
 		this.isDead = true;
 		if(this.direction == 0)
-		this.setImg('death1.gif');
+		this.setImg('death1.gif?' + Math.random(0,999));
 		if(this.direction == 1)
-		this.setImg('death.gif');
+		this.setImg('death.gif?'  + Math.random(0,999));
 		
 		countKilledEnemy++;
 		$('#panell5').text('Осталось врагов ' + (maxEnemy - countKilledEnemy));
@@ -321,7 +321,7 @@ function gameOver()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 $(document).ready(function() { 
 	
-	
+	maxEnemy = parseInt($('#numberOfEnemies').val());
 	$('#panell5').text('Осталось врагов ' + (maxEnemy - countKilledEnemy));
 	createBorder();
 	document.body.style.overflow = "hidden"; 

@@ -1,5 +1,5 @@
 var human =""
-var bossStart = 2300;
+var bossStart = 3300;
 var whenBossSpawn = 1000;
 var bossClass = "";
 var i = 0;
@@ -17,11 +17,11 @@ function Boss ()
 	this.killed = false;
 	this.width = 330;
 	this.height = 410;
-	this.stepLength = 0.1;
+	this.stepLength = 0.5;
 	this.boss = $('boss');
 	this.isDead = false;
 	this.hittedCount = 0;
-	this.maxHits = 3;
+	this.maxHits = 30;
 	this.x = bossStart;
 	this.y = parseInt($('.human').position().top -(this.height-$('.human').height()));
 	this.walkSpeed = 5;
