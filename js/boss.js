@@ -1,20 +1,22 @@
 var human =""
 var bossStart = 2300;
-var whenBossSpawn = 2000;
+var whenBossSpawn = 1000;
 var boss = "";
 var i = 0;
 var allowShot = true;
 var timeoutID = 0;
+var timerID = -6;
 function onLoadDocument()
 {
 	var human = $('.human');
 }
 function Boss ()
 {
-	
-	this.width = 500;
-	this.height = 500;
-	this.stepLength = 4;
+	this.allowMove = true;
+	this.killed = false;
+	this.width = 330;
+	this.height = 410;
+	this.stepLength = 1;
 	this.boss = $('boss');
 	this.isDead = false;
 	this.hittedCount = 0;
@@ -25,11 +27,11 @@ function Boss ()
 	this.damagePersent = this.width / (this.maxHits + 1);
 	this.dir = 1;
 	this.canMove = true;
-	this.img = "huileft.gif";
+	this.img = "bossAppear.png";
 	this.imgDir = "img/";
 	this.fullDir = this.imgDir+this.img;
 	
-	this.deathImg = "death.gif?" + Math.random(0,999);
+	this.deathImg = "bossDeath.gif?" + Math.random(0,999);
 	this.deathFullDir = this.imgDir+this.deathImg;
 	
 	this.updatePos = function(){
@@ -38,6 +40,9 @@ function Boss ()
 		
 	}
 
+	this.leftPos = function(){
+		return $('boss').position().left;
+	}
 	
 	this.setPos = function(x)
 	{
@@ -53,7 +58,10 @@ function Boss ()
 	}
 	this.kill = function(){
 		this.isDead = true;
+		this.allowMove = false;
+		clearInterval(timerID);
 		this.setImg(this.deathFullDir);									//“”т люба€ картинка при смерти
+		this.killed  = true;
 	}
 	
 	this.hitted = function (){														///при попадании
@@ -68,7 +76,11 @@ function Boss ()
 			}
 			if(tempBoss.hittedCount < tempBoss.maxHits)
 			{
+				tempBoss.allowMove = false;
 				tempBoss.hittedCount++;
+				tempBoss.setImg("img/bossAppear.png");
+				var tmID = setTimeout(function(){tempBoss.allowMove = true;clearTimeout(tmID)},400);
+				
 			}
 			else
 			{
@@ -81,14 +93,14 @@ function Boss ()
 	}
 	
 	this.moveBy = function(){
-		if(this.dir == 1)
+		if(this.dir == 1 && this.allowMove)
 		{
 			this.x -= this.stepLength;
 			
 		}
-		else
+		else if(this.dir == 0 && this.allowMove)
 		{
-			this.y += this.stepLength;
+			this.x += this.stepLength;
 		}
 		this.updatePos();
 	}
@@ -133,13 +145,25 @@ function Boss ()
 			"height": this.height,
 			"left":this.x,
 			"top":this.y,
-<<<<<<< HEAD
+
 			"z-index": 8,
-=======
-			"z-index":8,
->>>>>>> origin/master
+			"background-repeat":"norepeat",
 			"background":"url("+this.fullDir+")"
 		});
+		
+		var timerID = setInterval(function(){
+		
+				if($('.human').position().left + $('.human').width() > boss.leftPos() && !boss.killed)
+				{
+					humanDead = true;
+				}
+				else if(!boss.killed && boss.allowMove)
+				{
+					boss.moveBy();
+					boss.setImg("img/boss_walk.gif");
+				}
+				
+			},2);
 	}
 	this.startFunction();
 	
@@ -151,14 +175,12 @@ function Boss ()
 			{
 				allowShot = false;
 				tempBoss.hitted();
-				
 				timeoutID = setTimeout(function(){
 					allowShot = true;
 					clearTimeout(timeoutID);
 				},700);
 			}
 	});
-	
 }
 
 $(document).ready(function(){
@@ -167,9 +189,9 @@ $(document).ready(function(){
 		if($('.human').position().left > whenBossSpawn )// && (maxEnemy - countKilledEnemy) <= 0) //shot
 		{
 			boss = new Boss();
+			setTimeout(function(){},300);		//просто ждем чуть чуть
 			clearInterval(intervalID);
+			
 		}
 	},2);
-	
-	
 });
