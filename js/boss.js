@@ -117,6 +117,7 @@ function Boss ()
 				"position":"inherit",
 				"width" : this.width,
 				"height" : "20px",
+				"top":-20,
 				"border-radius" : "4px",
 				"top": -20,
 				"background" : "#19CC49"
@@ -132,7 +133,11 @@ function Boss ()
 			"height": this.height,
 			"left":this.x,
 			"top":this.y,
+<<<<<<< HEAD
 			"z-index": 8,
+=======
+			"z-index":8,
+>>>>>>> origin/master
 			"background":"url("+this.fullDir+")"
 		});
 	}
