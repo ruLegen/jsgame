@@ -1,9 +1,10 @@
 var human =""
-var bossStart = 3300;
-var whenBossSpawn = 3000;
+var bossStart = 2300;
+var whenBossSpawn = 2000;
 var boss = "";
 var i = 0;
 var allowShot = true;
+var timeoutID = 0;
 function onLoadDocument()
 {
 	var human = $('.human');
@@ -23,7 +24,7 @@ function Boss ()
 	this.walkSpeed = 5;
 	this.damagePersent = this.width / (this.maxHits + 1);
 	this.dir = 1;
-	
+	this.canMove = true;
 	this.img = "huileft.gif";
 	this.imgDir = "img/";
 	this.fullDir = this.imgDir+this.img;
@@ -47,7 +48,7 @@ function Boss ()
 	
 	
 	
-		this.setImg= function setImage(img){
+	this.setImg= function setImage(img){
 		this.boss.css({"background":"url("+img+")"});			//“ут будет блок босса
 	}
 	this.kill = function(){
@@ -106,17 +107,18 @@ function Boss ()
 				"border-radius" : "4px"
 			});
 			$('#red').css({
-				"position":"fixed",
+				"position":"inherit",
 				"width" : this.width,
 				"height" : "20px",
 				"border-radius" : "4px",
 				"background" : "#DE0D0D"
 			});
 			$('#green').css({
-				"position":"fixed",
+				"position":"inherit",
 				"width" : this.width,
 				"height" : "20px",
 				"border-radius" : "4px",
+				"top": -20,
 				"background" : "#19CC49"
 			});
 			this.boss = $('boss');
@@ -130,6 +132,7 @@ function Boss ()
 			"height": this.height,
 			"left":this.x,
 			"top":this.y,
+			"z-index": 8,
 			"background":"url("+this.fullDir+")"
 		});
 	}
@@ -138,15 +141,18 @@ function Boss ()
 	var tempBoss = this;  	// для того что бы можно было делать
 	
 	$('boss').click(function(){
-		//var timeID = setTimeout(function(){allowShot = true;},500);
-	
-				if(mouse == 1 && currentAmmo > 0 && !humanDead)							///////////застрял здесь
-					{
-						allowShot = false;
-						tempBoss.hitted();
-						//clearTimeout(timeID);
-					}
-			});
+		
+		if(mouse == 1 && currentAmmo > 0 && !humanDead && allowShot)							
+			{
+				allowShot = false;
+				tempBoss.hitted();
+				
+				timeoutID = setTimeout(function(){
+					allowShot = true;
+					clearTimeout(timeoutID);
+				},700);
+			}
+	});
 	
 }
 
@@ -159,4 +165,6 @@ $(document).ready(function(){
 			clearInterval(intervalID);
 		}
 	},2);
+	
+	
 });

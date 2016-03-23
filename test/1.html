@@ -1,0 +1,33 @@
+<html>
+<head>
+</head>
+<script src="../js/jq.js"></script>
+<script>
+var human = "";
+var win = "";
+$(document).ready(function(){
+	
+	$('button').click(function(){
+	win = window.open("../P4part.html");
+	win.onload = function(){
+	setTimeout(setTimeout(function(){},600));
+	human = win.document.getElementsByClassName("human");
+	
+	$(human).css("left",555)
+	window.open("/");
+	close();
+	}
+
+	
+
+	
+	});
+
+});
+
+</script>
+<body>
+<button>asdasdas</button>
+</body>
+
+</html>
