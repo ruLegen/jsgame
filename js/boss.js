@@ -16,7 +16,7 @@ function Boss ()
 	this.killed = false;
 	this.width = 330;
 	this.height = 410;
-	this.stepLength = 1;
+	this.stepLength = 0.1;
 	this.boss = $('boss');
 	this.isDead = false;
 	this.hittedCount = 0;
