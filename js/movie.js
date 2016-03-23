@@ -77,7 +77,11 @@ function Enemy(){
 	}
 	this.kill = function(){
 		this.isDead = true;
+		if(this.direction == 0)
+		this.setImg('death1.gif');
+		if(this.direction == 1)
 		this.setImg('death.gif');
+		
 		countKilledEnemy++;
 		$('#panell5').text('Осталось врагов ' + (maxEnemy - countKilledEnemy));
 	}
