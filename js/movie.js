@@ -76,14 +76,20 @@ function Enemy(){
 		$('#enemy'+this._id).css({"background":"url("+this.image+")"});
 	}
 	this.kill = function(){
-		this.isDead = true;
+	
+		if(!this.isDead)
+		{
 		if(this.direction == 0)
 		this.setImg('death1.gif?' + Math.random(0,999));
 		if(this.direction == 1)
 		this.setImg('death.gif?'  + Math.random(0,999));
-		
+		var posY = $('#enemy' + this._id).position().top;
+		$('#enemy' + this._id).css("top",posY + 5) ;
+		}
+			this.isDead = true;
 		countKilledEnemy++;
 		$('#panell5').text('Осталось врагов ' + (maxEnemy - countKilledEnemy));
+		
 	}
 	this.setPos = function pos(_x){
 		this.x = _x;
@@ -658,9 +664,7 @@ $(document).ready(function(){
 					{
 						availableNextLvl = true;
 					}
-					
-					
-					
+					thisEnemy.unbind("click");
 					},400); 
 				}
 			});
