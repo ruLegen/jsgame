@@ -307,7 +307,7 @@ function gameOver(humanPosX,humanPosY)
 	$('#yes').click(function(){
 		$(this).css('border-color','rgba(39, 174, 176, 1)');
 		setTimeout(function(){
-			window.location = '/PIndex.html';
+			window.location = '/Pindex.html';
 		},100);
 	});
 	
