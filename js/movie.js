@@ -37,7 +37,10 @@ var isReload = false;
 var rightCombination = new Array('R','J','Z');
 
 function findEnemy(mas,id)
-{
+{	
+	
+	$('.human').show();
+	
 	for(var i = 0; i < mas.length;i++)
 	{
 		
@@ -46,9 +49,11 @@ function findEnemy(mas,id)
 			var enemy = mas[i];
 			
 			if(enemy.direction == dir)
+				$("#"+enemy.id).css("width",240);
 				$("#gameover").remove();
-				mas[i].kill();
+				mas[i].kill();				
 				humanDead = false;
+				
 				
 		}
 	}
@@ -641,7 +646,7 @@ $(document).ready(function(){
 								});
 								$('.human').hide();
 								gameOver(tmp_humPosX,tmp_humPosY);				
-								clearInterval(movejsTimeId);
+								//clearInterval(movejsTimeId);
 							}
 							
 						if(enemy.direction == 1)
@@ -657,7 +662,7 @@ $(document).ready(function(){
 								});
 								$('.human').hide();
 								gameOver(tmp_humPosX,tmp_humPosY);				
-								clearInterval(movejsTimeId);
+								//clearInterval(movejsTimeId);
 							}
 					}
 				}
