@@ -664,7 +664,7 @@ $(document).ready(function(){
 					{
 						availableNextLvl = true;
 					}
-					thisEnemy.unbind("click");
+				
 					},400); 
 				}
 			});

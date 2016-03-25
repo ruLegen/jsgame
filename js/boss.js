@@ -166,13 +166,16 @@ function Boss ()
 				}
 				else if(!boss.killed && boss.allowMove && !humanDead)
 				{
+					if(bossClass.allowMove == false)
+						bossClass.allowMove = true;
 					boss.moveBy();
 					boss.setImg("img/boss_walk.gif");
 				}
 				else if(humanDead)
 				{
 					bossClass.setImg('img/bossAppear.png');
-					clearInterval(timerID);
+					bossClass.allowMove = false;
+					//clearInterval(timerID);
 				}
 				
 			},2);
