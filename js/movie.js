@@ -243,9 +243,10 @@ function createBorder()
 	borderLeft = parseInt($('#floor').css("width")) - (borderCam+30);
 }
 
-function gameOver()
+function gameOver(humanPosX,humanPosY)
 {
 	humanDead = true;
+	
 	$('body').append("<div id='gameover'></div>");
 	$('#gameover').hide();
 	$('#gameover').css({
@@ -253,8 +254,8 @@ function gameOver()
 		"width": 400,
 		"height": 75,
 		"background": 'rgba(2, 142, 155, 0.41)',
-		"left":$('.human').position().left -180,
-		"top":$('.human').position().top -120,//+parseInt($('.human').css('height'))+ 120,//document.documentElement.clientHeight/2,
+		"left":humanPosX -180,
+		"top":humanPosY -120,//+parseInt($('.human').css('height'))+ 120,//document.documentElement.clientHeight/2,
 		"z-index":9999999,
 		"border-radius":'5px',
 		'border-style' :'outset',
@@ -581,7 +582,7 @@ if(currentAmmo > 0 && !humanDead) // если патронов больше 0
 
 $(document).ready(function(){
 		
-		window.setInterval(function(){
+		var movejsTimeId = window.setInterval(function(){
 		/*
 			if(currentAmmo == 0 && totalAmmo > 0)
 			{
@@ -630,13 +631,33 @@ $(document).ready(function(){
 						if(enemy.direction == 0)
 							if($('#'+enemy.id).position().left + enemy.width>= $('.human').position().left)
 							{
-								gameOver();
+								var tmp_humPosX = $('.human').position().left;
+								var tmp_humPosY = $('.human').position().top;
+								
+								$('#'+enemy.id).css("background","url('img/HumanDeathRight.gif')");
+								$('#'+enemy.id).css({
+									"width":400,
+									"background-repeat":"no-repeat"
+								});
+								$('.human').hide();
+								gameOver(tmp_humPosX,tmp_humPosY);				
+								clearInterval(movejsTimeId);
 							}
 							
 						if(enemy.direction == 1)
 							if($('#'+enemy.id).position().left <= $('.human').position().left + parseInt($('.human').css('width')))
 							{
-								gameOver();
+								var tmp_humPosX = $('.human').position().left;
+								var tmp_humPosY = $('.human').position().top;
+								
+								$('#'+enemy.id).css("background","url('img/HumanDeathLeft.gif')");
+								$('#'+enemy.id).css({
+									"width":300,
+									"background-repeat":"no-repeat"
+								});
+								$('.human').hide();
+								gameOver(tmp_humPosX,tmp_humPosY);				
+								clearInterval(movejsTimeId);
 							}
 					}
 				}
