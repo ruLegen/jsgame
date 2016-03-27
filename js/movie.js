@@ -1,4 +1,4 @@
-//window.history.replaceState(null,"ý22","game.html");
+window.history.replaceState(null,"ý22","Pf5.html");
 var globalID = 0;
 var Enemyes = new Array();
 var mouse = 0;
@@ -312,7 +312,16 @@ function gameOver(humanPosX,humanPosY)
 	$('#yes').click(function(){
 		$(this).css('border-color','rgba(39, 174, 176, 1)');
 		setTimeout(function(){
-			window.location = '/Pindex.html';
+			var path  = window.location.pathname;
+			var loc = path.split('/');
+			loc[loc.length-1] = 'Pindex.html';
+			var fullLoc = '';
+			for(var i = 0; i < loc.length-1;i++)
+			{
+				var str = '/' + loc[i+1];
+				fullLoc += str;
+			}
+			window.location = fullLoc;
 		},100);
 	});
 	
