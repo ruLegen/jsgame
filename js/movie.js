@@ -51,7 +51,7 @@ function findEnemy(mas,id)
 			if(enemy.direction == dir)
 				$("#"+enemy.id).css("width",240);
 				$("#gameover").remove();
-				mas[i].kill();				
+				mas[i].kill();
 				humanDead = false;
 				
 				
@@ -90,9 +90,12 @@ function Enemy(){
 		this.setImg('death.gif?'  + Math.random(0,999));
 		var posY = $('#enemy' + this._id).position().top;
 		$('#enemy' + this._id).css("top",posY + 5) ;
+		
 		}
-			this.isDead = true;
-		countKilledEnemy++;
+			if(!this.isDead)
+				countKilledEnemy++;
+		this.isDead = true;
+		
 		$('#panell5').text('Осталось врагов ' + (maxEnemy - countKilledEnemy));
 		
 	}
@@ -693,7 +696,7 @@ $(document).ready(function(){
 					window.setTimeout(function(){ 
 				
 					
-					countEnemy --;
+					
 					findEnemy(Enemyes,thisEnemy.id);
 					if(countKilledEnemy == maxEnemy)
 					{
